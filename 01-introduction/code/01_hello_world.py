@@ -8,7 +8,7 @@ import os
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 
-load_dotenv()
+load_dotenv()# carga
 
 def main():
     print("🦜🔗 Hello LangChain!\n")
