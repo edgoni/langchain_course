@@ -1,0 +1,25 @@
+.ica-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	gap: var(--size-4-3);
+}
+
+.ica-text {
+	font-family: var(--font-monospace);
+	font-size: var(--font-ui-small);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.ica-match {
+	color: var(--text-accent);
+	font-weight: var(--font-semibold);
+}
+
+.ica-meta {
+	flex-shrink: 0;
+	color: var(--text-faint);
+	font-size: var(--font-ui-smaller);
+}

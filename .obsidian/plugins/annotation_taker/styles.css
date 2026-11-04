@@ -1,0 +1,108 @@
+/* Master Quick Notes — callout [!master] */
+
+.callout[data-callout="master"] {
+	--callout-color: 79, 70, 229;      /* índigo (tema claro) */
+	--callout-icon: lucide-pencil;
+
+	mix-blend-mode: normal;            /* evita que el tema altere el contraste */
+	border: 1px solid rgba(var(--callout-color), 0.25);
+	border-left: 4px solid rgb(var(--callout-color));
+	border-radius: var(--radius-s, 6px);
+	background-color: rgba(var(--callout-color), 0.07);
+	padding: 8px 14px 8px 12px;
+	margin: 1em 0;
+}
+
+.theme-dark .callout[data-callout="master"] {
+	--callout-color: 129, 140, 248;    /* índigo claro (tema oscuro) */
+	background-color: rgba(var(--callout-color), 0.12);
+}
+
+.theme-light .callout[data-callout="master"] {
+	--callout-color: 79, 70, 229;
+	background-color: rgba(var(--callout-color), 0.07);
+}
+
+/* Título e icono */
+.callout[data-callout="master"] > .callout-title {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 2px 0;
+	color: rgb(var(--callout-color));
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.callout[data-callout="master"] > .callout-title .callout-icon {
+	display: flex;
+	align-items: center;
+	color: rgb(var(--callout-color));
+}
+
+.callout[data-callout="master"] > .callout-title .callout-icon .svg-icon {
+	width: 16px;
+	height: 16px;
+}
+
+/* Botón de colapso alineado a la derecha del título */
+.callout[data-callout="master"] > .callout-title .callout-fold {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-left: auto;
+	color: rgb(var(--callout-color));
+	opacity: 0.8;
+	transition: opacity 0.15s ease;
+}
+
+.callout[data-callout="master"] > .callout-title:hover .callout-fold {
+	opacity: 1;
+}
+
+.callout[data-callout="master"] > .callout-title .callout-fold .svg-icon {
+	width: 18px;
+	height: 18px;
+}
+
+/* Contenido */
+.callout[data-callout="master"] > .callout-content {
+	padding: 6px 2px 4px;
+	color: var(--text-normal);
+}
+
+.callout[data-callout="master"] > .callout-content > :first-child { margin-top: 0; }
+.callout[data-callout="master"] > .callout-content > :last-child  { margin-bottom: 0; }
+
+/* Código dentro del callout */
+.callout[data-callout="master"] pre {
+	margin: 0.6em 0;
+	padding: 10px 12px;
+	border-radius: var(--radius-s, 6px);
+	background-color: var(--background-primary);
+	border: 1px solid var(--background-modifier-border);
+	overflow-x: auto;
+}
+
+.callout[data-callout="master"] code {
+	font-size: 0.9em;
+}
+
+.callout[data-callout="master"] :not(pre) > code {
+	padding: 1px 5px;
+	border-radius: 4px;
+	background-color: rgba(var(--callout-color), 0.15);
+}
+
+/* LaTeX dentro del callout */
+.callout[data-callout="master"] .math {
+	max-width: 100%;
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+
+.callout[data-callout="master"] .math.math-block {
+	display: block;
+	padding: 8px 4px;
+	text-align: center;
+}

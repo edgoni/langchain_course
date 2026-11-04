@@ -1,0 +1,9 @@
+{
+  "id": "master-quick-notes",
+  "name": "Master Quick Notes",
+  "version": "1.0.0",
+  "minAppVersion": "1.0.0",
+  "description": "Inserta o envuelve texto en un callout colapsable [!master] para tus aportaciones personales.",
+  "author": "Tu nombre",
+  "isDesktopOnly": false
+}

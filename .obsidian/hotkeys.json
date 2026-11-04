@@ -1,0 +1,18 @@
+{
+  "auto-highlighter:toggle-auto-highlight": [
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "U"
+    }
+  ],
+  "master-quick-notes:toggle-master-note": [
+    {
+      "modifiers": [
+        "Mod"
+      ],
+      "key": "A"
+    }
+  ]
+}

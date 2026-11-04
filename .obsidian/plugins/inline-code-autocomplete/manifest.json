@@ -1,0 +1,9 @@
+{
+	"id": "inline-code-autocomplete",
+	"name": "Inline Code Autocomplete",
+	"version": "1.0.0",
+	"minAppVersion": "1.4.0",
+	"description": "Al escribir dentro de `código inline`, sugiere funciones y variables que ya has usado en la nota.",
+	"author": "Edu",
+	"isDesktopOnly": false
+}

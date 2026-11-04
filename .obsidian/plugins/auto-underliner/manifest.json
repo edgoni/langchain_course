@@ -1,0 +1,9 @@
+{
+  "id": "auto-highlighter",
+  "name": "Auto Highlighter",
+  "version": "1.0.0",
+  "minAppVersion": "1.0.0",
+  "description": "Ctrl+S activa/desactiva un modo en el que todo el texto que seleccionas se subraya automáticamente (==texto==).",
+  "author": "Tú",
+  "isDesktopOnly": false
+}

@@ -1,0 +1,9 @@
+.auto-highlighter-status {
+  font-weight: 600;
+}
+.auto-highlighter-status.is-active {
+  background-color: var(--text-highlight-bg);
+  color: var(--text-normal);
+  padding: 0 6px;
+  border-radius: 4px;
+}
