@@ -67,11 +67,11 @@ Chat models don't actually "remember" previous messages. Instead, you send the e
 
 LangChain provides three core message types for building conversations:
 
-| Type | Purpose | Example |
-|------|---------|---------|
-| **SystemMessage** | Set AI behavior and personality | `SystemMessage(content="You are a helpful coding tutor")` |
-| **HumanMessage** | User input and questions | `HumanMessage(content="What is Python?")` |
-| **AIMessage** | AI responses with metadata | Returned by `model.invoke()` with `content`, `usage_metadata`, `id` |
+| Type              | Purpose                         | Example                                                             |
+| ----------------- | ------------------------------- | ------------------------------------------------------------------- |
+| **SystemMessage** | Set AI behavior and personality | `SystemMessage(content="You are a helpful coding tutor")`           |
+| **HumanMessage**  | User input and questions        | `HumanMessage(content="What is Python?")`                           |
+| **AIMessage**     | AI responses with metadata      | Returned by `model.invoke()` with `content`, `usage_metadata`, `id` |
 
 > **💡 Looking ahead:** In [Prompts, Messages, and Structured Outputs](../03-prompts-messages-outputs/README.md), you'll learn when to use messages vs templates and additional construction patterns for building agents.
 
@@ -353,7 +353,7 @@ You can control how the LLM responds by adjusting parameters. These can vary by 
 Temperature controls randomness and creativity:
 
 - **0.0 = Deterministic**: Same question → Same answer
-  - Use for: Code generation, factual answers
+  - Use for: ==Code generation, factual answers==
 - **1.0 = Balanced** (default): Mix of consistency and variety
   - Use for: General conversation
 - **2.0 = Creative**: Some models support up to 2.0 for more random and creative responses but is generally less predictable
@@ -791,6 +791,32 @@ if __name__ == "__main__":
 - Standardized across LangChain ecosystem
 
 > **⚠️ Known Limitation**: `with_retry()` currently has issues with streaming (`.stream()`). Retry logic works correctly with `.invoke()` but may not execute with `.stream()`. For critical operations requiring retry logic, use `.invoke()` instead of `.stream()`.
+
+> [!master]- Mi Aportación
+> BEST PRACTICES:
+> ✅ Always wrap API calls in try-except
+   try:
+       response = model.invoke(prompt)
+   except Exception as error:
+       print(f"Error: {error}")
+ ✅ Use built-in retry logic with with_retry()
+   model_with_retry = model.with_retry(stop_after_attempt=3)
+_handles exponential backoff!_
+✅ Handle specific error types
+   if "429" in str(error):
+       _Rate limit - with_retry() handles this automatically_
+   elif "401" in str(error):
+        _Auth error - check API key_
+✅ Log errors for debugging
+   import logging
+   logging.error(f"API Error: {error}")
+ ✅ Provide helpful error messages to users
+   "Sorry, I'm having trouble connecting. Please try again."
+ ✅ Have fallback behavior
+   if api_call_fails:
+       return cached_response or default_response
+ ✅ Monitor error rates in production
+   Track failed requests to identify issues early
 
 ---
 

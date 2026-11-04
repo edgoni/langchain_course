@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "01-introduction/README.md",
+                "file": "02-chat-models/README.md",
                 "mode": "source",
                 "source": false
               },
@@ -79,7 +79,8 @@
               "title": "Marcadores"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -99,7 +100,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "01-introduction/README.md",
+                "file": "02-chat-models/README.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,7 +119,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "01-introduction/README.md",
+                "file": "02-chat-models/README.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -161,7 +162,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "01-introduction/README.md",
+                "file": "02-chat-models/README.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -169,8 +170,19 @@
               "icon": "lucide-list",
               "title": "Esquema"
             }
+          },
+          {
+            "id": "ade91d0cd73cd5cf",
+            "type": "leaf",
+            "state": {
+              "type": "review-queue-list-view",
+              "state": {},
+              "icon": "lucide-ghost",
+              "title": "review-queue-list-view"
+            }
           }
-        ]
+        ],
+        "currentTab": 5
       }
     ],
     "direction": "horizontal",
@@ -185,12 +197,19 @@
       "daily-notes:Abrir la nota de hoy": false,
       "templates:Insertar plantilla": false,
       "command-palette:Abrir paleta de comandos": false,
-      "bases:Crear nueva base": false
+      "bases:Crear nueva base": false,
+      "obsidian-spaced-repetition:Revisar Tarjetas": false
     }
   },
   "active": "824064402008261b",
   "lastOpenFiles": [
+    "02-chat-models/assignment.md",
+    "02-chat-models/code/chatbot.py",
+    "02-chat-models/README.md",
+    "langchain_cheatsheet.md",
     "01-introduction/assignment.md",
+    "venv/desktop.ini",
+    "01-introduction/code/personality_test.py",
     "01-introduction/README.md",
     "00-course-setup/README.md",
     "00-course-setup/APPENDIX.md"
