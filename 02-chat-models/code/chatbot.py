@@ -24,10 +24,9 @@ def chatbot():
     model = ChatOpenAI(model=os.getenv("AI_MODEL"), base_url=os.getenv("AI_ENDPOINT"), api_key=os.getenv("AI_API_KEY"))
     for i in range(10):
         
-        prompt = input("You: ")
+        prompt = input("You: /n")
         if prompt == "quit":
             break
-        first_chunk_time = 0
         messages.append(HumanMessage(content=prompt))
         for chunk in model.stream(messages):
             print(chunk.content, end="", flush=True) 

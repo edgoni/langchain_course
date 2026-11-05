@@ -145,8 +145,8 @@ from pydantic import BaseModel, Field
 
 Before continuing, make sure you've completed:
 
-- [ ] Challenge: Few-shot format teacher with JSON output
-- [ ] Bonus: Product data extractor with structured outputs (optional)
+- [x] Challenge: Few-shot format teacher with JSON output
+- [x] Bonus: Product data extractor with structured outputs (optional)
 
 ---
 

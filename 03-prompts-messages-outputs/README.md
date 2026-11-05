@@ -1,8 +1,8 @@
 # Prompts, Messages, and Structured Outputs
 
-In this chapter, you'll learn the three essential techniques for working with LLMs in LangChain: **messages**, **prompt templates**, and **structured outputs**. Understanding these techniques is key, because modern LangChain applications choose different approaches depending on the use case. Messages provide dynamic construction for flexible workflows like agents, templates provide reusable prompts with variable substitution, and structured outputs ensure type-safe data extraction.
+In this chapter, you'll learn the three essential techniques for working with LLMs in LangChain: **==messages**, **prompt templates**, and **structured outputs**==. Understanding these techniques is key, because modern LangChain applications choose different approaches depending on the use case. ==Messages== provide ==dynamic construction== for ==flexible workflows like agents==, templates provide reusable prompts with variable substitution, and structured outputs ensure type-safe data extraction.
 
-This chapter prepares you for both **agents** (using messages) and **RAG systems** (using templates).
+This chapter prepares you fo==r both **agents** (using messages) and **RAG systems** (using templates)==.
 
 ## Prerequisites
 
@@ -28,9 +28,9 @@ By the end of this chapter, you'll be able to:
 
 ![Messages vs Templates Decision Framework](./images/messages-vs-templates.png)
 
-| Approach | Use For | Chapter |
-|----------|---------|---------|
-| **Messages** | Agents, dynamic workflows, multi-step reasoning, tool integration | [Getting Started with Agents](../05-agents/README.md) |
+| Approach      | Use For                                                           | Chapter                                                                                         |
+| ------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| **Messages**  | Agents, dynamic workflows, multi-step reasoning, tool integration | [Getting Started with Agents](../05-agents/README.md)                                           |
 | **Templates** | Reusable prompts, variable substitution, consistency, RAG systems | [Documents, Embeddings & Semantic Search](../07-documents-embeddings-semantic-search/README.md) |
 
 **Both approaches are valuable**: Messages for dynamic workflows, templates for reusability and consistency.
@@ -39,13 +39,13 @@ By the end of this chapter, you'll be able to:
 
 ## PART 1: Message-Based Prompting
 
-Message arrays are the foundation of agent systems in LangChain. When you work with agents, you'll use message arrays as input and output.
+==Message arrays== are the foundation of agent systems in LangChain. When you work with agents, you'll ==use message arrays as input and output.==
 
 ### The Conversation Analogy
 
 ![Conversation Analogy](./images/conversation-analogy.png)
 
-Think of communicating with an AI like having a conversation. Just like in human conversation, there are different types of messages:
+Think of ==communicating with an AI== like ==having a conversation==. Just like in human conversation, there are different types of messages:
 
 - **System Message**: The "ground rules" - like telling someone before a conversation that they're playing a character
 - **Human Message**: What you say
@@ -209,14 +209,14 @@ AI Response: 😮
 ### How It Works
 
 1. **Dynamic Construction**: Messages are built programmatically based on inputs
-2. **Few-Shot Learning**: Teaching by example using `AIMessage` for past responses
+2. **Few-Shot Learning**: ==Teaching by example using `AIMessage` for past responses==
 3. **Pattern Recognition**: The model learns from examples to produce similar outputs
 
 ---
 
 ## PART 2: Template-Based Prompting
 
-Templates allow you to create reusable, maintainable prompts with variables. Think of them like "mail merge" - same format, different values.
+==Templates== allow you to ==create reusable==, ==maintainable== prompts with variables. Think of them like "mail merge" - same format, different values.
 
 ### The Mail Merge Analogy
 
