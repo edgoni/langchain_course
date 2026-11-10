@@ -27,7 +27,7 @@ def extract_information_from_description(description: str):
     print(result.price)
     print(result.category)
     print(result.highlight)
-    print(result)
+    print(result) 
 
 
 def retrieve_json_few_shot():

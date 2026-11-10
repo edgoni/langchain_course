@@ -649,10 +649,10 @@ agent = create_agent(
 )
 ```
 
-| Hook | Intercepta | Casos de uso |
-|---|---|---|
+| Hook              | Intercepta         | Casos de uso                                                 |
+| ----------------- | ------------------ | ------------------------------------------------------------ |
 | `wrap_model_call` | Llamadas al modelo | Selección dinámica de modelo, logging, inyección de contexto |
-| `wrap_tool_call` | Ejecución de tools | Reintentos, errores, transformar resultados, permisos |
+| `wrap_tool_call`  | Ejecución de tools | Reintentos, errores, transformar resultados, permisos        |
 
 ---
 

@@ -478,7 +478,8 @@ Now that you understand how to build basic agents with single and multiple tools
 
 ### Example 4: create_agent() with Middleware
 
-This example shows how to use **middleware** with `create_agent()` for production scenarios like dynamic model selection based on conversation complexity and graceful error handling.
+This example shows how to use **middleware** with `create_agent()` for production scenarios like dynamic model selection based on conversation complexity and gracef
+l error handling.
 
 **Key code you'll work with:**
 ```python
@@ -503,7 +504,7 @@ agent = create_agent(
 
 **Example code:**
 
-**What is middleware?** Middleware intercepts and modifies agent behavior without changing your tools or agent logic. Think of it as "plugins" for your agent.
+**==What is middleware?** Middleware intercepts and modifies agent behavior without changing your tools or agent logic. Think of it as "plugins" for your agent.==
 
 ```python
 from langchain.agents import create_agent
@@ -653,11 +654,11 @@ flowchart TD
 
 The agent uses tool **names** and **descriptions** to match queries to tools:
 
-| User Query | Tool Selected | Why |
-|-----------|---------------|-----|
-| "What is 50 * 25?" | calculator | Matches "mathematical calculations" |
-| "Weather in Tokyo?" | get_weather | Matches "weather for a city" |
-| "Tell me about X" | search | Matches "search for information" |
+| User Query          | Tool Selected | Why                                 |
+| ------------------- | ------------- | ----------------------------------- |
+| "What is 50 * 25?"  | calculator    | Matches "mathematical calculations" |
+| "Weather in Tokyo?" | get_weather   | Matches "weather for a city"        |
+| "Tell me about X"   | search        | Matches "search for information"    |
 
 **Tips for better tool selection**:
 1. Use **descriptive names** - `get_weather` not `tool1`

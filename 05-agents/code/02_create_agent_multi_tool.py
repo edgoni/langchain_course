@@ -23,7 +23,7 @@ from dotenv import load_dotenv
 from langchain.agents import create_agent
 from langchain_core.messages import HumanMessage
 from langchain_core.tools import tool
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from pydantic import BaseModel, Field
 
 # Load environment variables
@@ -98,11 +98,15 @@ def search(query: str) -> str:
 def main():
     print("🎛️  Multi-Tool Agent with create_agent()\n")
 
-    # Create model
-    model = ChatOpenAI(
-        model=os.getenv("AI_MODEL"),
-        base_url=os.getenv("AI_ENDPOINT"),
-        api_key=os.getenv("AI_API_KEY"),
+    google_key = os.getenv("GOOGLE_API_KEY") or os.getenv("AI_API_KEY")
+    model_name = (
+        os.getenv("GEMINI_MODEL")
+        or os.getenv("AI_MODEL")
+        or "gemini-3.8-flash"
+    )
+    model = ChatGoogleGenerativeAI(
+        model=model_name,
+        api_key=google_key,
     )
 
     # Create agent with all three tools

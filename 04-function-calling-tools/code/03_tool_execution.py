@@ -11,10 +11,11 @@ Run: python 04-function-calling-tools/code/03_tool_execution.py
 import os
 
 from dotenv import load_dotenv
-from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
+from langchain_core.messages import HumanMessage, ToolMessage
 from langchain_core.tools import tool
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from pydantic import BaseModel, Field
+
 
 # Load environment variables
 load_dotenv()
@@ -39,10 +40,14 @@ def main():
     print("🔄 Complete Tool Execution Loop\n")
     print("=" * 80 + "\n")
 
-    model = ChatOpenAI(
-        model=os.getenv("AI_MODEL"),
-        base_url=os.getenv("AI_ENDPOINT"),
-        api_key=os.getenv("AI_API_KEY"),
+    # Gemini Developer API (AI Studio): no uses AI_ENDPOINT del curso (GitHub/Azure OpenAI).
+    # Ese host no es el de Google y devuelve 404 si lo pasas como base_url.
+    google_key = os.getenv("GOOGLE_API_KEY") or os.getenv("AI_API_KEY")
+    # Default: Google ya no ofrece gemini-2.5-flash a cuentas nuevas (404). Usa el id de AI Studio o:
+    # https://ai.google.dev/gemini-api/docs/models
+    model = ChatGoogleGenerativeAI(
+        model=os.getenv("GEMINI_MODEL", "gemini-3.8-flash"),
+        api_key=google_key,
     )
 
     model_with_tools = model.bind_tools([get_weather])
@@ -96,10 +101,7 @@ def main():
 
     messages = [
         HumanMessage(content=query),
-        AIMessage(
-            content=str(response1.content),
-            tool_calls=response1.tool_calls,
-        ),
+        response1,
         ToolMessage(
             content=str(tool_result),
             tool_call_id=tool_call["id"],

@@ -26,7 +26,7 @@ from dotenv import load_dotenv
 from langchain.agents import create_agent
 from langchain_core.messages import HumanMessage
 from langchain_core.tools import tool
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from pydantic import BaseModel, Field
 
 # Load environment variables
@@ -57,11 +57,17 @@ def calculator(expression: str) -> str:
 def main():
     print("🤖 Agent with create_agent() Example\n")
 
-    # Create the model
-    model = ChatOpenAI(
-        model=os.getenv("AI_MODEL"),
-        base_url=os.getenv("AI_ENDPOINT"),
-        api_key=os.getenv("AI_API_KEY"),
+    # Gemini Developer API (AI Studio). No uses AI_ENDPOINT (GitHub/Azure OpenAI):
+    # create_agent() hace tool-calling y ese proxy suele devolver 400.
+    google_key = os.getenv("GOOGLE_API_KEY") or os.getenv("AI_API_KEY")
+    model_name = (
+        os.getenv("GEMINI_MODEL")
+        or os.getenv("AI_MODEL")
+        or "gemini-3.8-flash"
+    )
+    model = ChatGoogleGenerativeAI(
+        model=model_name,
+        api_key=google_key,
     )
 
     # Create agent using create_agent() - that's it!
@@ -77,7 +83,13 @@ def main():
     # The response contains the full state, including all messages
     # Get the last message which is the agent's final answer
     last_message = response["messages"][-1]
-    print(f"🤖 Agent: {last_message.content}\n")
+    content = last_message.content
+    if isinstance(content, list):
+        content = "".join(
+            block.get("text", "") if isinstance(block, dict) else str(block)
+            for block in content
+        )
+    print(f"🤖 Agent: {content}\n")
 
     print("💡 Key Differences from Manual Loop:")
     print("   • create_agent() handles the ReAct loop automatically")

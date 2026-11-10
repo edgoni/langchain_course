@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "03-prompts-messages-outputs/assignment.md",
+                "file": "05-agents/assignment.md",
                 "mode": "source",
                 "source": false
               },
@@ -220,18 +220,28 @@
       "obsidian-spaced-repetition:Revisar Tarjetas": false
     }
   },
-  "active": "ade91d0cd73cd5cf",
+  "active": "824064402008261b",
   "lastOpenFiles": [
-    "03-prompts-messages-outputs/assignment.md",
     "langchain_cheatsheet.md",
-    "03-prompts-messages-outputs/code/format_teacher.py",
+    "05-agents/assignment.md",
+    "05-agents/code/research_agent.py",
+    "venv/Lib/site-packages/langchain_google_genai.zip",
+    "05-agents/README.md",
+    "04-function-calling-tools/assignment.md",
+    "venv/Lib/site-packages/google/genai/_gaos/resources/interactions/codemenderagentconfig/fixrequest/__pycache__/desktop.ini",
+    "venv/Lib/site-packages/google/genai/_gaos/resources/interactions/placecitation/desktop.ini",
+    "venv/Scripts/filetype.exe",
+    "04-function-calling-tools/README.md",
+    "venv/Lib/site-packages/tenacity-9.1.4.dist-info/licenses/LICENSE",
+    "venv/Lib/site-packages/tenacity-9.1.4.dist-info/WHEEL",
+    "venv/Lib/site-packages/tenacity-9.1.4.dist-info/top_level.txt",
+    "venv/Lib/site-packages/tenacity-9.1.4.dist-info/RECORD",
+    "venv/Lib/site-packages/tenacity-9.1.4.dist-info/licenses",
+    "03-prompts-messages-outputs/assignment.md",
     "03-prompts-messages-outputs/README.md",
     "02-chat-models/README.md",
     "02-chat-models/assignment.md",
-    "02-chat-models/code/chatbot.py",
     "01-introduction/assignment.md",
-    "venv/desktop.ini",
-    "01-introduction/code/personality_test.py",
     "01-introduction/README.md",
     "00-course-setup/README.md",
     "00-course-setup/APPENDIX.md"
