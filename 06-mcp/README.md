@@ -1,4 +1,6 @@
 # Model Context Protocol (MCP)
+> [!master]- Mi Aportación
+> El MCP es un estándar de código abierto para unificar la forma en que los asistentes de inteligencia artificial acceden a datos externos y sistemas de software. MCP resuelve el problema de la fragmentación en la integración de herramientas.
 
 In this chapter, you'll learn how to connect AI agents to external services using the **Model Context Protocol (MCP)**—an open standard that provides a universal interface for AI applications to access tools and data sources. You'll discover how MCP simplifies integration with services like GitHub, databases, and documentation systems, and how to use MCP tools seamlessly with the agents you built in [Getting Started with Agents](../05-agents/README.md).
 
@@ -19,32 +21,22 @@ By the end of this chapter, you'll be able to:
 - ✅ Choose the right transport type for your use case
 - ✅ Build and deploy **custom MCP servers** to expose your own tools
 - ✅ Troubleshoot common MCP connection and integration issues
-
 ---
-
 ## 📌 About the Code Examples
-
 The code snippets shown in this README are simplified for clarity and focus on core concepts. The actual code files in the `code/`, `solution/`, and `samples/` folders include:
-
 - ✨ **Enhanced console output** with detailed logging and formatting
 - 🛡️ **Production-ready error handling** with comprehensive try-except blocks
 - 🔧 **Environment variable support** for flexible configuration
 - 💡 **Extended educational comments** explaining MCP concepts
-
 When you run the actual files, you'll see more detailed output than shown in the examples below.
-
 ---
-
 ## 📖 The USB-C for AI Analogy
-
 **Imagine building a laptop that needs to connect to various peripherals:**
-
 ### Before USB-C (Custom Integrations)
 - 🔌 Different port for each device (HDMI, DisplayPort, USB-A, Ethernet, power)
 - 🔧 Custom drivers and protocols for each
 - 📦 Bulky laptop with many specialized ports
 - ⏱️ A lot of work to add support for new devices
-
 ### With USB-C (MCP Standard)
 - ⚡ One universal port for everything
 - 🔄 Standardized protocol all devices understand
@@ -56,7 +48,6 @@ When you run the actual files, you'll see more detailed output than shown in the
 *MCP provides a standardized way for AI agents to connect to tools - like USB-C for AI applications.*
 
 ---
-
 ## 🌐 Model Context Protocol (MCP)
 
 **You've built agents with manually created tools, but what about connecting to external services?**
@@ -70,15 +61,12 @@ In [Getting Started with Agents](../05-agents/README.md), you created tools (cal
 - Documentation systems (fetch docs, resolve references)
 
 Writing custom integrations for each service means dealing with different APIs, authentication methods, and data formats. This is where **Model Context Protocol (MCP)** comes in.
-
 ### What is MCP?
-
 **Model Context Protocol (MCP)** is an open standard that lets AI applications connect to external tools and data sources through a universal interface. It's like USB-C for AI applications.
 
 **The Problem**: Building an AI assistant that needs to access Calendar details, databases, GitHub, and more means writing custom integrations for each service with different APIs, auth methods, and data formats.
 
 **The MCP Solution**: Services expose their capabilities through a standard protocol. Your agent connects once and gets access to everything.
-
 ### Architecture
 
 <img src="images/mcp-architecture.png" alt="Model Context Protocol Architecture" width="800"/>
@@ -86,15 +74,24 @@ Writing custom integrations for each service means dealing with different APIs, 
 *MCP provides a standardized way for AI agents to connect to external services - like USB-C for AI applications.*
 
 Each **MCP Server** is a program that exposes tools through the protocol. Your agent connects and can use all available tools.
-
 ### Transport Types
+> [!master]- Mi Aportación
+> Cuando tu agente LangChain entra en el ciclo ReAct y decide ejecutar una herramienta (Action), necesita enviar los parámetros de esa acción al servidor MCP y esperar la respuesta empírica (Observation). Esto se logra mediante uno de estos dos canales de comunicación:
+> 1. stdio (Process-based / Subprocesos locales)** Imagina que tu agente de LangChain arranca un programa secundario en su misma computadora.
+> - **Cómo funciona (`stdin` y `stdout`):** Todos los programas informáticos tienen canales de texto básicos. `stdin` (Standard Input) es por donde el programa "escucha" o recibe datos, y `stdout` (Standard Output) es por donde "habla" o escupe resultados. Con este transporte, el agente y el servidor MCP se conectan directamente por estas tuberías en la memoria del sistema operativo, sin usar internet.
+> - **Cuándo usarlo:** Es ideal para desarrollo local, pruebas rápidas, o cuando la herramienta es un script de Python ligero que debe ejecutarse en la misma máquina que el agente.
+> - **Limitación empresarial:** Está fuertemente acoplado. Si tienes 50 agentes distribuidos en distintos servidores, no pueden conectarse a este servidor MCP porque solo existe dentro del proceso del agente original
+> 1. Streamable HTTP (Network-based / Red)** Este es el modelo cliente-servidor clásico que sostiene internet, optimizado para flujos de datos continuos.
+> -**Cómo funciona:** El agente se comunica con el servidor MCP a través de una URL en una red local (Intranet) o pública (Internet). Mantiene la conexión abierta para transmitir información de manera bidireccional, lo cual es vital para enviar los "pensamientos" generados por un LLM token a token.
+> - **Por qué es clave para empresas:** Es la base para sistemas distribuidos reales y escalables. Puedes tener un único Servidor MCP robusto alojado en la nube que exponga tu base de datos corporativa de forma segura. A partir de ahí, múltiples agentes especializados (un chatbot de ventas, un agente supervisor de soporte) pueden consultar esa misma URL de forma simultánea.
+> - **El rol de LangChain:** Al usar la configuración `transport: "streamable_http"`, LangChain se encarga automáticamente de formatear las peticiones HTTP y gestionar las caídas de red bajo el capó. Si hay un error de conexión, el `AgentExecutor` lo captura y se lo entrega al modelo como un texto descriptivo para que intente recuperarse sin que la aplicación colapse.
 
 MCP defines two standard transport mechanisms for client-server communication:
 
-| Transport | Communication Method | When to Use | Example |
-|-----------|---------------------|-------------|---------|
-| **Streamable HTTP** | Network-based (client → server over network) | When MCP server is accessed via URL (local or remote) | `{"transport": "streamable_http", "url": "https://api.mycompany.com/mcp"}` |
-| **stdio** | Process-based (parent ↔ child via streams) | When MCP server runs as subprocess of your application | `{"transport": "stdio", "command": "python", "args": ["server.py"]}` |
+| Transport           | Communication Method                         | When to Use                                            | Example                                                                    |
+| ------------------- | -------------------------------------------- | ------------------------------------------------------ | -------------------------------------------------------------------------- |
+| **Streamable HTTP** | Network-based (client → server over network) | When MCP server is accessed via URL (local or remote)  | `{"transport": "streamable_http", "url": "https://api.mycompany.com/mcp"}` |
+| **stdio**           | Process-based (parent ↔ child via streams)   | When MCP server runs as subprocess of your application | `{"transport": "stdio", "command": "python", "args": ["server.py"]}`       |
 
 > **📝 Note on Transport Evolution**: The current MCP specification uses **Streamable HTTP** as the standard network transport. In LangChain Python code, you use `transport: "streamable_http"` - the library handles the protocol automatically.
 
@@ -108,7 +105,6 @@ MCP defines two standard transport mechanisms for client-server communication:
 *Streamable HTTP transport uses network-based communication, while stdio uses process-based communication.*
 
 > **💡 Architecture Choice**: Streamable HTTP is for *network-accessible* servers (think: web service). stdio is for *process-integrated* tools (think: subprocess).
-
 ### Why MCP Matters
 
 | Without MCP | With MCP |
@@ -118,7 +114,6 @@ MCP defines two standard transport mechanisms for client-server communication:
 | Time intensive to add services | Quicker to add services |
 
 **The key insight**: In [Getting Started with Agents](../05-agents/README.md), you built the tool *implementations*. With MCP, you connect to tool *providers* that expose their capabilities through a standard protocol. Same `create_agent()` pattern, different tool source!
-
 ### Using MCP in LangChain
 
 LangChain provides the `langchain-mcp-adapters` package for MCP integration:
@@ -129,8 +124,21 @@ pip install langchain-mcp-adapters
 
 Now let's see how to connect to an MCP server and use its tools with `create_agent()`.
 
----
+> [!master]- Cuando usar cada cosa
+> El protocolo de Context7 (Streamable HTTP) y el protocolo de subprocesos locales (stdio) son dos formas distintas de conectar tu agente LangChain con herramientas (Tools) externas mediante el estándar MCP. Ambos mecanismos exponen el mismo catálogo de herramientas y permiten la misma interacción ReAct (Pensamiento, Acción, Observación), pero difieren en su arquitectura técnica y en su idoneidad para entornos empresariales.
+> Utilizarás uno u otro basándote principalmente en los requisitos de arquitectura de tu sistema empresarial:
+> - **Utiliza Streamable HTTP (Ej: Context7) cuando:**
+> 	- **Necesitas escalar:** Quieres que múltiples agentes diferentes (por ejemplo, un chatbot de ventas y un supervisor de soporte) se conecten simultáneamente a un único servidor centralizado en la nube o en la intranet corporativa.
+> 	- **Buscas desacoplamiento:** Quieres que el servidor MCP exista independientemente de los clientes; si tu agente se detiene o se reinicia, el servidor debe seguir activo para otros usuarios.
+> 	-  **La comunicación es por red:** El servidor y el agente se encuentran en máquinas o servidores distintos, comunicándose a través de peticiones HTTP web.
+> 	-  **Manejas sistemas heredados compartidos:** Vas a conectar bases de datos corporativas, CRMs o sistemas backend que son críticos para la empresa y deben mantenerse en una arquitectura centralizada.
+> - **Utiliza `stdio` (Subprocesos Locales) cuando:**
+> 	- **Requieres herramientas íntimamente ligadas al entorno:** La herramienta o script necesita operar en la misma máquina física o contenedor virtual que el agente.
+> 	- **La comunicación debe ser interna:** No requieres conexión de red (ni internet ni intranet); el agente y el servidor se comunican mediante los canales internos de memoria del sistema operativo (las tuberías de entrada y salida estándar).
+> 	- **El servidor y el agente comparten el mismo ciclo de vida:** Está bien que el servidor MCP se inicie, funcione y se detenga exactamente al mismo tiempo que el agente que lo invoca (fuerte acoplamiento).
+> 	- **Desarrollo en contenedores (Docker):** Estás creando un contenedor autónomo donde el agente LangChain y sus herramientas MCP específicas residen en la misma imagen, y puedes escalar simplemente añadiendo más contenedores completos.
 
+---
 ## 🚀 Building Agents with MCP Tools
 
 ### Example 1: Agent with MCP Server Integration (Context7)
@@ -163,7 +171,6 @@ agent = create_agent(model, tools)  # Tools from MCP server instead of manually 
 - `get-library-docs`: Retrieves documentation with optional topic filtering
 
 **Example code:**
-
 ```python
 import asyncio
 import os
@@ -231,7 +238,6 @@ if __name__ == "__main__":
 > - "Can I connect to multiple MCP servers simultaneously?"
 
 ### Expected Output
-
 ```
 🔌 MCP Integration Demo - Context7 Documentation Server
 
@@ -255,12 +261,11 @@ Here's how to make a GET request...
 
 ✅ MCP client connection closed
 ```
-
 ---
-
 ### Example 2: MCP with stdio Transport
 
-This example shows how to use **stdio transport** to run an MCP server as a subprocess. Unlike HTTP (which communicates over network), stdio uses standard input/output streams for communication.
+This example shows how to use **stdio transport** to ==run an MCP ==server as a sub
+process. Unlike HTTP (which communicates over network), stdio uses standard input/output streams for communication.
 
 **Key code you'll work with:**
 ```python
@@ -279,7 +284,6 @@ client = MultiServerMCPClient({
 tools = await client.get_tools()
 agent = create_agent(model, tools)
 ```
-
 **Server**: [`code/servers/stdio_calculator_server.py`](./code/servers/stdio_calculator_server.py)  
 **Code**: [`code/02_mcp_stdio_local.py`](./code/02_mcp_stdio_local.py)  
 **Run**: `python 06-mcp/code/02_mcp_stdio_local.py`
@@ -336,11 +340,22 @@ agent = create_agent(model, tools)
 
 ✅ MCP client connection closed
 ```
+> [!master]- Diferencia entre los dos ejemplos
+> Que diferencia hay entre stdio y Context7? Entre los ejemplos 1 y 2?
+> La diferencia fundamental entre "Context7" (HTTP) y el ejemplo local (stdio) no radica en las herramientas que ofrecen, sino en **dónde se ejecuta el servidor y cómo se comunica el agente con él**.
+>- **Context7 (Streamable HTTP): El modelo "Web API"**:
+>	- **Ejecución independiente:** El servidor MCP existe por su cuenta en una máquina remota (en internet o en la intranet de una empresa).
+>	- **Comunicación por red:** Tu agente se conecta a él mediante una dirección web (URL), enviando peticiones a través de la red.
+>	- **Ciclo de vida desacoplado:** Si detienes la ejecución de tu agente de LangChain, el servidor de Context7 sigue activo y disponible para que otros agentes o usuarios se conecten.
+>- **Calculadora Local (stdio): El modelo "Subproceso"**
+>	- **Ejecución integrada:** Tu agente es quien "arranca" el servidor MCP directamente en tu propia computadora mediante un comando de terminal (en el ejemplo, ejecutando el archivo `stdio_calculator_server.py` con Python).
+>	- **Comunicación interna:** No utiliza internet ni red local. El agente y el servidor "hablan" a través de los canales internos de memoria de tu sistema operativo (las entradas y salidas estándar o _stdin/stdout_).
+>	- **Ciclo de vida acoplado:** El servidor nace y muere exactamente al mismo tiempo que tu agente. Está encapsulado dentro de tu aplicación.
+
+En una arquitectura a nivel industrial, usarías `streamable_http` para conectar tus agentes a los sistemas centrales compartidos de la empresa (CRMs, bases de datos, sistemas de tickets), y reservarías `stdio` únicamente si el agente necesita ejecutar un script muy específico que reside físicamente en la misma máquina donde el agente está operando.
 
 ---
-
 ### Example 3: Multi-Server Agent Integration
-
 This example demonstrates the real power of MCP: connecting to **multiple MCP servers simultaneously**. The agent gets tools from all servers and intelligently chooses which to use based on the query!
 
 **Key code you'll work with:**
@@ -423,6 +438,14 @@ Test 2: Documentation question (should use Context7)
 ```
 
 ---
+> [!master]- asyncio
+> `asyncio` es una biblioteca estándar de Python que permite escribir código concurrente utilizando la sintaxis `async` y `await`. Su propósito principal es gestionar operaciones de entrada/salida (I/O) que tardan tiempo en resolverse, como leer bases de datos, hacer peticiones web o comunicarse con APIs externas, sin bloquear el resto del programa.
+> El funcionamiento de `asyncio` se basa en los siguientes componentes clave:
+> - **El Bucle de Eventos (Event Loop):** Es el motor central que ejecuta las rutinas asíncronas. Funciona como un director de orquesta que supervisa todas las tareas pendientes y decide cuál debe ejecutarse en cada momento.
+> - **Operaciones no bloqueantes (Non-blocking):** En la programación tradicional (síncrona), si tu código hace una petición HTTP, todo el programa se congela hasta que llega la respuesta. Con `asyncio`, el programa le dice al sistema: "Voy a esperar esta respuesta de red; mientras tanto, puedes usar el procesador para hacer otras cosas".
+> - **Corutinas (`async def`):** Son funciones especiales declaradas con `async`. Cuando llamas a una corutina, no se ejecuta inmediatamente, sino que devuelve un objeto que debe ser programado en el bucle de eventos.
+> - **Puntos de pausa (`await`):** Se utiliza dentro de las corutinas para indicar el punto exacto donde la función necesita esperar un resultado externo. Al llegar a un `await`, la corutina cede el control temporalmente de vuelta al bucle de eventos.
+> En la arquitectura de agentes empresariales que estás desarrollando, `asyncio` es fundamental para la escalabilidad. Cuando tu agente de LangChain entra en un bucle ReAct y necesita consultar herramientas a través de servidores MCP mediante red (`streamable_http`), usar las versiones asíncronas de los métodos (como `ainvoke` en lugar del tradicional `invoke`) permite que el servidor donde está alojado tu agente procese decenas o cientos de solicitudes de usuarios simultáneamente, maximizando la eficiencia de los recursos sin necesidad de crear procesos pesados adicionales.
 
 ### Example 4: Error Handling & Production Patterns
 

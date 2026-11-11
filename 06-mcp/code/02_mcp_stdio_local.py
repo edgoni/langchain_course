@@ -19,11 +19,30 @@ from dotenv import load_dotenv
 from langchain.agents import create_agent
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
+
+from langchain_core.messages import AIMessage, ToolMessage
 
 load_dotenv()
 
 # Get the directory of this file for resolving server path
 SCRIPT_DIR = Path(__file__).parent
+
+
+def show_tools_used(messages):
+    used = False
+    for msg in messages:
+        if isinstance(msg, AIMessage) and msg.tool_calls:
+            used = True
+            for call in msg.tool_calls:
+                print(f"  🧠 Tool: {call['name']}")
+                print(f"     args: {call['args']}")
+        elif isinstance(msg, ToolMessage):
+            preview = str(msg.content)[:200]
+            print(f"  🔧 {msg.name} → {preview}")
+    if not used:
+        print("  (no usó ninguna tool; contestó solo con el modelo)")
+
 
 
 async def main():
@@ -54,10 +73,22 @@ async def main():
         print()
 
         # 2. Create model
+        '''
         model = ChatOpenAI(
             model=os.getenv("AI_MODEL"),
             base_url=os.getenv("AI_ENDPOINT"),
             api_key=os.getenv("AI_API_KEY"),
+        )
+        '''
+        google_key = os.getenv("GOOGLE_API_KEY") or os.getenv("AI_API_KEY")
+        model_name = (
+            os.getenv("GEMINI_MODEL")
+            or os.getenv("AI_MODEL")
+            or "gemini-3.8-flash"
+        )
+        model = ChatGoogleGenerativeAI(
+            model=model_name,
+            api_key=google_key,
         )
 
         # 3. Create agent with stdio MCP tools
@@ -71,6 +102,7 @@ async def main():
 
         math_response = await agent.ainvoke({"messages": [("human", math_query)]})
         math_result = math_response["messages"][-1]
+        show_tools_used(math_response["messages"]) # AÑADIDO
         print(f"🤖 Agent: {math_result.content}\n")
 
         # 5. Test temperature conversion
@@ -81,6 +113,7 @@ async def main():
 
         temp_response = await agent.ainvoke({"messages": [("human", temp_query)]})
         temp_result = temp_response["messages"][-1]
+        show_tools_used(temp_response["messages"]) # AÑADIDO
         print(f"🤖 Agent: {temp_result.content}\n")
 
         # 6. Test complex calculation
@@ -91,6 +124,7 @@ async def main():
 
         complex_response = await agent.ainvoke({"messages": [("human", complex_query)]})
         complex_result = complex_response["messages"][-1]
+        show_tools_used(complex_response["messages"]) # AÑADIDO
         print(f"🤖 Agent: {complex_result.content}\n")
 
         print("💡 Key Concepts:")

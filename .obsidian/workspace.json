@@ -6,6 +6,7 @@
       {
         "id": "3bc394a5eefa4bcc",
         "type": "tabs",
+        "dimension": 52.18120805369127,
         "children": [
           {
             "id": "824064402008261b",
@@ -13,12 +14,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "05-agents/assignment.md",
+                "file": "07-documents-embeddings-semantic-search/README.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "assignment"
+              "title": "README"
             }
           }
         ]
@@ -26,6 +27,7 @@
       {
         "id": "dde8013d201515c6",
         "type": "tabs",
+        "dimension": 47.81879194630873,
         "children": [
           {
             "id": "d9ce07639813765f",
@@ -222,11 +224,17 @@
   },
   "active": "824064402008261b",
   "lastOpenFiles": [
-    "langchain_cheatsheet.md",
+    "07-documents-embeddings-semantic-search/assignment.md",
+    "06-mcp/assignment.md",
+    "06-mcp/code/mcp_servers.py",
+    "06-mcp/README.md",
+    "aclaraciones/async.md",
+    "aclaraciones",
+    "05-agents/README.md",
     "05-agents/assignment.md",
+    "langchain_cheatsheet.md",
     "05-agents/code/research_agent.py",
     "venv/Lib/site-packages/langchain_google_genai.zip",
-    "05-agents/README.md",
     "04-function-calling-tools/assignment.md",
     "venv/Lib/site-packages/google/genai/_gaos/resources/interactions/codemenderagentconfig/fixrequest/__pycache__/desktop.ini",
     "venv/Lib/site-packages/google/genai/_gaos/resources/interactions/placecitation/desktop.ini",
@@ -235,8 +243,6 @@
     "venv/Lib/site-packages/tenacity-9.1.4.dist-info/licenses/LICENSE",
     "venv/Lib/site-packages/tenacity-9.1.4.dist-info/WHEEL",
     "venv/Lib/site-packages/tenacity-9.1.4.dist-info/top_level.txt",
-    "venv/Lib/site-packages/tenacity-9.1.4.dist-info/RECORD",
-    "venv/Lib/site-packages/tenacity-9.1.4.dist-info/licenses",
     "03-prompts-messages-outputs/assignment.md",
     "03-prompts-messages-outputs/README.md",
     "02-chat-models/README.md",

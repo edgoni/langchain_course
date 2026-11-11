@@ -1,9 +1,24 @@
 # Getting Started with Agents
 
+> [!master]- Mi Aportación
+> Los Agentes se convierten en motores de razomiento que decidenm dinámicamente que herramientos utilizar para resolver un problema, en vez de dar una secuencia predecible de operaciones.
+> 
+> Las ventajas:
+> - **Toma de decisiones dinámica:** A diferencia de las "Chains" (cadenas), que ejecutan una secuencia rígida, los agentes evalúan la entrada del usuario paso a paso y determinan la mejor ruta de acción.
+> - **Ejecución de tareas en el mundo real (Tool Use):** Un LLM por sí solo solo genera texto basado en su entrenamiento. Los agentes permiten conectar el LLM con el exterior. Por ejemplo, si un chatbot necesita consultar una base de datos empresarial o buscar información actualizada en la web antes de responder, el agente tomará la decisión de invocar esas herramientas de forma automática.
+> - **Especialización y escalabilidad (Sistemas Multi-Agente):** En arquitecturas empresariales modernas (como las construidas con LangGraph), el concepto de "agentes que instancian o dirigen a otros agentes" permite dividir problemas complejos. Puedes tener un "Agente Supervisor" que recibe la petición del cliente y delega el trabajo a "Agentes Especialistas" (por ejemplo, un agente de SQL para extraer datos y un agente de redacción para generar el reporte), logrando flujos de trabajo modulares y altamente eficientes.
+> - **Capacidad de autocorrección:** Los agentes pueden analizar el resultado de la herramienta que acaban de utilizar. Si una consulta a una API falla o devuelve datos incompletos, el agente puede razonar sobre ese error, corregir su código o parámetros, y volver a intentarlo sin necesidad de intervención humana.
+> 
+> Esto se gestiona internamente por LancChain lo que se llama el bucle ReAct:
+> 1. **Thought (Pensamiento/Razonamiento):** El agente analiza la solicitud del usuario (o el resultado de una acción previa) y "razona" en voz alta sobre cuál debe ser su siguiente paso.
+> 2. **Action (Acción):** Basado en su razonamiento, el agente decide ejecutar una herramienta específica (por ejemplo, buscar en una base de datos de clientes, calcular un margen de beneficio, o hacer una petición a una API).
+> 3. **Observation (Observación):** El agente recibe el resultado exacto de esa herramienta (los datos crudos, un mensaje de éxito, o un error).
+> 
+> LangChain automatiza completamente la orquestación del ciclo ReAct (Pensamiento $\rightarrow$ Acción $\rightarrow$ Observación). En lugar de programar bucles de ejecución o escribir expresiones regulares para analizar las respuestas de texto generadas por el modelo de lenguaje, LangChain proporciona componentes que gestionan este flujo interno.
+> 
+
 In this chapter, you'll learn to build AI agents that can reason about problems, select appropriate tools, and work iteratively towards solutions. You'll understand the ReAct (Reasoning + Acting) pattern by implementing agent loops step-by-step, and discover how agents autonomously choose tools to accomplish complex tasks. These skills enable you to build autonomous AI systems that can handle complex, multi-step tasks.
-
 ## Prerequisites
-
 - Completed [Function Calling & Tools](../04-function-calling-tools/README.md)
 
 ## 🎯 Learning Objectives

@@ -21,6 +21,8 @@ from dotenv import load_dotenv
 from langchain.agents import create_agent
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
+
 
 load_dotenv()
 
@@ -71,11 +73,24 @@ async def main():
         print()
 
         # 2. Create model
+        '''
         model = ChatOpenAI(
             model=os.getenv("AI_MODEL"),
             base_url=os.getenv("AI_ENDPOINT"),
             api_key=os.getenv("AI_API_KEY"),
         )
+        '''
+        google_key = os.getenv("GOOGLE_API_KEY") or os.getenv("AI_API_KEY")
+        model_name = (
+            os.getenv("GEMINI_MODEL")
+            or os.getenv("AI_MODEL")
+            or "gemini-3.8-flash"
+        )
+        model = ChatGoogleGenerativeAI(
+            model=model_name,
+            api_key=google_key,
+        )
+
 
         # 3. Create agent with tools from ALL servers
         agent = create_agent(model, tools)  # Tools from multiple servers!
